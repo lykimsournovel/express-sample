@@ -2,6 +2,7 @@ const User = require("../models/user");
 const { validationResult } = require("express-validator");
 exports.register = async (req, res) => {
   const validatorError = validationResult(req);
+  console.log("ok");
   if (!validatorError.isEmpty()) {
     return res.status(422).json({
       message: validatorError.array(),

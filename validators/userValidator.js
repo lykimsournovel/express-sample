@@ -1,14 +1,6 @@
 const { check, body } = require("express-validator");
 const User = require("../models/user");
 
-const checkUser = async (email) => {
-  const user = await User.findOne({ where: { email: email } });
-  if (user) {
-    return true;
-  }
-  return false;
-};
-
 const userValidator = [
   check("email")
     .isEmail()
