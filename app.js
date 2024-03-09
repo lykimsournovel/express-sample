@@ -6,6 +6,8 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+const setHeaderMiddleWare = require("./middlewares/setHeaderMiddleWare");
+const authorizationMiddleware = require("./middlewares/authMiddileWare");
 // const db = require('./utils/database');
 
 var app = express();
@@ -20,8 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api", authorizationMiddleware, indexRouter);
+app.use("/users", setHeaderMiddleWare, usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

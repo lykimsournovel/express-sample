@@ -1,7 +1,7 @@
 const { check, body } = require("express-validator");
 const User = require("../models/user");
 
-const userValidator = [
+const userRegisterValidator = [
   check("email")
     .isEmail()
     .not()
@@ -23,4 +23,12 @@ const userValidator = [
   check("role").isString().not().isEmpty(),
 ];
 
-module.exports = userValidator;
+const userLoginValidator = [
+  check("email").isEmail().not().isEmpty(),
+  check("password").isString().not().isEmpty(),
+];
+
+module.exports = {
+  userRegisterValidator,
+  userLoginValidator,
+};
