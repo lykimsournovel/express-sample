@@ -56,7 +56,9 @@ exports.checkoutProduct = async (req, res) => {
       success_url: "http://localhost:3000/success",
       cancel_url: "http://localhost:3000/cancel",
     });
-    return res.status(200).json({ session: session.id, sessionInfo: session });
+    return res
+      .status(200)
+      .json({ sessionId: session.id, sessionInfo: session });
   } catch (error) {
     return res.status(404).json(error);
   }

@@ -7,10 +7,18 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const setHeaderMiddleWare = require("./middlewares/setHeaderMiddleWare");
-const authorizationMiddleware = require("./middlewares/authMiddileWare");
+const authMiddleWare = require("./middlewares/authMiddileWare");
+const cors = require("cors");
 // const db = require('./utils/database');
 
 var app = express();
+
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*", "http://localhost:3000");
+//   res.header("Access-control-Allow-Methods", "GET, POST");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, authorization");
+//   next();
+// });
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -22,8 +30,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api", authorizationMiddleware, indexRouter);
-app.use("/users", setHeaderMiddleWare, usersRouter);
+app.use(cors());
+app.use("/api", authMiddleWare, indexRouter);
+app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
