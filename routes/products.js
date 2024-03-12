@@ -5,5 +5,5 @@ const productController = require("../controllers/productController");
 router.get("/", productController.getProduct);
 router.post("/save", productController.savePorduct);
 router.get("/find/:id", productController.findProduct);
-router.get("/checkout", productController.checkoutProduct);
+router.post("/checkout", productController.checkoutProduct);
 module.exports = router;

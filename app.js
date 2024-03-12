@@ -13,13 +13,6 @@ const cors = require("cors");
 
 var app = express();
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*", "http://localhost:3000");
-//   res.header("Access-control-Allow-Methods", "GET, POST");
-//   res.header("Access-Control-Allow-Headers", "Content-Type, authorization");
-//   next();
-// });
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
