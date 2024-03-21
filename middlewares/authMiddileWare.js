@@ -11,6 +11,7 @@ authMiddleware.use(async (req, res, next) => {
     console.log(user);
     next();
   } catch (error) {
+    console.log(error.message);
     return res.status(401).json({ error: "Unauthorized" });
   }
 });

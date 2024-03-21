@@ -35,6 +35,7 @@ exports.savePorduct = (req, res) => {
 
 exports.checkoutProduct = async (req, res) => {
   try {
+    console.log("hi");
     console.log(req.body);
     const { amount } = req.body;
     const paymentIntent = await stripe.paymentIntents.create({
