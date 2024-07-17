@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start:prod": "env-cmd -f .env nodemon ./bin/www",
-    "start:dev": "env-cmd -f .env.development nodemon ./bin/www"
+    "start:dev": "env-cmd -f .env.development nodemon ./bin/www",
+    "seed:employee": "node utils/seedEmployee.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

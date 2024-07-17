@@ -4,7 +4,19 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltRound = 10;
 
+const testCallback = (callback) => {
+  const data = {
+    id: 1,
+    name: "kimsour",
+  };
+
+  return callback(data);
+};
+
 const generateToken = (user, expire) => {
+  testCallback((data) => {
+    console.log(data);
+  });
   const userInfo = { email: user.email, id: user.id, roles: user.role };
   const token = jwt.sign(userInfo, process.env.TOKEN_SECRET, {
     expiresIn: expire,

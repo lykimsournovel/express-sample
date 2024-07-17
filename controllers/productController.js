@@ -43,6 +43,7 @@ exports.checkoutProduct = async (req, res) => {
       currency: "usd",
       payment_method_types: ["card"],
     });
+    console.log(paymentIntent);
     return res.status(200).json({
       paymentIntent,
     });

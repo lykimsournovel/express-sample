@@ -9,7 +9,6 @@ var usersRouter = require("./routes/users");
 const setHeaderMiddleWare = require("./middlewares/setHeaderMiddleWare");
 const authMiddleWare = require("./middlewares/authMiddileWare");
 const cors = require("cors");
-// const db = require('./utils/database');
 
 var app = express();
 
