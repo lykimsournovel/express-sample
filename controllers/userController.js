@@ -21,8 +21,8 @@ const generateToken = (user, expire) => {
   const token = jwt.sign(userInfo, process.env.TOKEN_SECRET, {
     expiresIn: expire,
   });
-  const refreshToken = jwt.sign(userInfo, process.env.TOKEN_SECRET, {
-    expiresIn: "5h",
+  const refreshToken = jwt.sign(userInfo, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "365d",
   });
   const authToken = { token: token, refreshToken: refreshToken };
   return authToken;
@@ -48,7 +48,7 @@ exports.register = async (req, res) => {
       password: hushPassword,
       role: role,
     });
-    const authToken = generateToken(user, "5h");
+    const authToken = generateToken(user, "3m");
     return res
       .status(200)
       .json({ message: "Success", user: user, authToken: authToken });
@@ -56,6 +56,21 @@ exports.register = async (req, res) => {
     console.log(error);
     return res.status(400).json({ message: error.message });
   }
+};
+
+exports.refreshToken = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const user = await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+    const authToken = generateToken(user, "3m");
+    return res.status(200).json({ message: "Success", authToken: authToken });
+  } catch (error) {
+    return res.status(401).json({ error: error });
+  }
+
+  // return token;
+
+  // console.log(token);
 };
 
 exports.login = async (req, res) => {
@@ -74,7 +89,7 @@ exports.login = async (req, res) => {
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
-        const authToken = generateToken(user, "5h");
+        const authToken = generateToken(user, "1m");
         return res.status(200).json({
           message: "Success",
           user: {

@@ -5,6 +5,7 @@ const {
   userLoginValidator,
 } = require("../validators/userValidator");
 const UserController = require("../controllers/userController");
+const User = require("../models/user");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -13,5 +14,6 @@ router.get("/", function (req, res, next) {
 
 router.post("/register", userRegisterValidator, UserController.register);
 router.post("/login", userLoginValidator, UserController.login);
+router.post("/token", UserController.refreshToken);
 
 module.exports = router;
