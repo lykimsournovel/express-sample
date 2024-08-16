@@ -13,6 +13,7 @@ const testCallback = (callback) => {
   return callback(data);
 };
 
+let refreshTokens = [];
 const generateToken = (user, expire) => {
   testCallback((data) => {
     console.log(data);
@@ -24,10 +25,6 @@ const generateToken = (user, expire) => {
   const refreshToken = jwt.sign(userInfo, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "365d",
   });
-
-  // const refreshToken = jwt.sign(userInfo, process.env.REFRESH_TOKEN_SECRET, {
-  //   expiresIn: "2m",
-  // });
   const authToken = { token: token, refreshToken: refreshToken };
   return authToken;
 };
@@ -65,18 +62,19 @@ exports.register = async (req, res) => {
 exports.refreshToken = async (req, res) => {
   try {
     const { token } = req.body;
+    // if (!refreshTokens.includes(token)) return res.sendStatus(403);
     const user = await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+    // refreshTokens = refreshTokens.filter((t) => t !== token);
     const authToken = generateToken(user, "1m");
-    return res.status(200).json({ message: "Success", authToken: authToken });
+    return res.status(200).json({
+      message: "Success",
+      authToken: authToken,
+    });
   } catch (error) {
     return res
       .status(401)
       .json({ error: error, message: "refresh_token_expired" });
   }
-
-  // return token;
-
-  // console.log(token);
 };
 
 exports.login = async (req, res) => {
