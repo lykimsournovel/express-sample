@@ -24,6 +24,10 @@ const generateToken = (user, expire) => {
   const refreshToken = jwt.sign(userInfo, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "365d",
   });
+
+  // const refreshToken = jwt.sign(userInfo, process.env.REFRESH_TOKEN_SECRET, {
+  //   expiresIn: "2m",
+  // });
   const authToken = { token: token, refreshToken: refreshToken };
   return authToken;
 };
@@ -48,7 +52,7 @@ exports.register = async (req, res) => {
       password: hushPassword,
       role: role,
     });
-    const authToken = generateToken(user, "3m");
+    const authToken = generateToken(user, "1m");
     return res
       .status(200)
       .json({ message: "Success", user: user, authToken: authToken });
@@ -62,10 +66,12 @@ exports.refreshToken = async (req, res) => {
   try {
     const { token } = req.body;
     const user = await jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
-    const authToken = generateToken(user, "3m");
+    const authToken = generateToken(user, "1m");
     return res.status(200).json({ message: "Success", authToken: authToken });
   } catch (error) {
-    return res.status(401).json({ error: error });
+    return res
+      .status(401)
+      .json({ error: error, message: "refresh_token_expired" });
   }
 
   // return token;
